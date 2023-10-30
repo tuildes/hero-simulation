@@ -1,6 +1,3 @@
-#include "biblioteca.h"
+#include "principal.h"
 
-// Funções de manipulação de fila
-
-/* Comentario do tipo divisao de classificacao */
-/* Comentario do tipo divisao de classificacao */
+/* Funções de manipulação de fila */

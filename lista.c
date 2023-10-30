@@ -1,4 +1,4 @@
 #include "principal.h"
 
-// Funções de manipulação de fila
+/* Funções de manipulação de Listas */
 // COLOCAR COMENTARIOS
