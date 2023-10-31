@@ -13,3 +13,4 @@
 */
 
 /* Funções de manipulação principais do projeto */
+int gerar_aleatorio (int min, int max);
