@@ -1,0 +1,21 @@
+Arquivos deste projeto:
+
+lef.h *        interface do TAD LEF - lista de eventos futuros
+lef.c          implementação da LEF
+testa-lef.c    programa para testar a LEF (não usar no projeto!)
+testa-lef.txt  saída esperada do teste da LEF
+
+lista.h *      interface do TAD lista de inteiros (TP4)
+lista.c        implementação da lista de inteiros 
+
+set.h *        interface do TAD conjunto de inteiros (TP5)
+set.c          implementação do conjunto de inteiros 
+
+theboys.c      programa principal da simulação
+...            podem ser criados arquivos .c e .h conforme o necessário
+
+makefile       para compilar (veja os alvos disponíveis no próprio arquivo)
+
+Os arquivos marcados com '*' não devem ser alterados; os demais podem
+ser escritos ou alterados conforme o necessário.
+

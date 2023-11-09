@@ -17,11 +17,13 @@
 int main () {
 
     // Definindo a seed randomica do programa
-    srand(0);
+    srand(time(NULL));
     
     // Variaveis
     mundo mundo_virtual;
     heroi heroi_virtual;
+    base base_virtual;
+    missao missao_virtual;
 
     // Incializacoes
     if (inicializar_mundo(&mundo_virtual)) {
@@ -30,6 +32,7 @@ int main () {
     };
 
     inicializar_heroi (&heroi_virtual, mundo_virtual, 1);
+    inicializar_base (&base_virtual, mundo_virtual, 2);
 
     // Mundo propriamente dito
 
