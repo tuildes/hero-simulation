@@ -1,6 +1,7 @@
 #include "mundo.h"
 
-#define tamanho_max 20000;
+#define tamanho_maximo 20000;
+#define tempo_maximo 525000;
 
 /* Funções de manipulação do mundo de heróis */
 
@@ -12,11 +13,11 @@ int inicializar_mundo(mundo *mundo_virtual) {
     (*mundo_virtual).relogio = 0;
     // Inicializa o tempo final
     // Tempo maximo = 525000 (365 dias)
-    (*mundo_virtual).tempo_max = 525000;
+    (*mundo_virtual).tempo_max = tempo_maximo;
 
     // Incializa o tamanho do mundo
-    (*mundo_virtual).tamanho_mundo.x = tamanho_max;
-    (*mundo_virtual).tamanho_mundo.y = tamanho_max;
+    (*mundo_virtual).tamanho_mundo.x = tamanho_maximo;
+    (*mundo_virtual).tamanho_mundo.y = tamanho_maximo;
 
     // Incializa o numero de habilidades
     // Numero de habilidades = 10
