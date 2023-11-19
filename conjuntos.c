@@ -23,7 +23,6 @@
     };
 
     // Imprimir o conjunto
-    // Adiciona no começo da lista
     void imprimir_conjunto (conjunto *conj) {
         conjunto *aux;
 
