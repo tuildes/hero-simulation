@@ -39,7 +39,8 @@ lef *cria_lef (void);
 // Retorna NULL 
 lef *destruir_lef (lef *LEF);
 
-// Inserir o evento no LEF em ordenacao do MAIOR para o MENOR
+// Inserir o evento no LEF
+// Insere com Insertion sort
 // Retorna 1 para ERRO e 0 para SUCESSO
 int inserir_lef (lef *LEF, evento *EVENTO);
 
