@@ -10,6 +10,7 @@ struct fila_circular {
 };
 
 // Inicializar a fila com tamanho TAM
+// Retorna 1 para ERRO
 int inicializar_fila (fila *FILA, int TAM);
 
 // Destruir a fila

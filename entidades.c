@@ -1,6 +1,5 @@
 #include "entidades.h"
 
-
 /* Funções de manipulação do mundo de heróis */
 
 // Inicializa todas as variaveis do mundo
@@ -19,15 +18,15 @@ int inicializar_mundo(mundo *mundo_virtual) {
 
     // Incializa o numero de habilidades
     // Numero de habilidades = 10
-    (*mundo_virtual).num_habilidades = 10;
+    (*mundo_virtual).num_habilidades = max_habilidades;
 
     // Inicializa o numero de herois
     // Numero de habilidades * 5
     (*mundo_virtual).num_herois = ((*mundo_virtual).num_habilidades * 5);
 
     // Inicializa o numero de bases
-    // Numero de herois / 6
-    (*mundo_virtual).num_bases = ((*mundo_virtual).num_herois / 6);
+    // Numero de herois / 6 (teto)
+    (*mundo_virtual).num_bases = ceil(((*mundo_virtual).num_herois / 6.0));
 
     // Inicializa o numero de missoes
     // Numero de missoes = Tempo_max / 100
@@ -47,7 +46,6 @@ void imprimir_mundo (mundo mundo_virtual) {
     printf("Numero de herois: \t N_HEROIS \t\t = %d \n", (mundo_virtual).num_herois);
     printf("Numero de bases: \t N_BASES \t\t = %d \n", (mundo_virtual).num_bases);
     printf("Numero de missoes: \t N_MISSOES \t\t = %d \n", (mundo_virtual).num_missoes);
-    printf("\n");
 
 }
 
@@ -55,7 +53,6 @@ void imprimir_mundo (mundo mundo_virtual) {
 // Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR O HEROI
 int inicializar_heroi (heroi *heroi_virtual, mundo mundo_virtual, int id) {
 
-    
     int total_de_habilidades;
     
     // Inicializar o ID
@@ -74,9 +71,22 @@ int inicializar_heroi (heroi *heroi_virtual, mundo mundo_virtual, int id) {
 
     // Inicializar as habilidades
     // Gera um numero de 1 a 3, para ver o numero de habilidades do heroi
-    total_de_habilidades = (1 + (rand() % 3));
+    total_de_habilidades = gerar_aleatorio(1, 3);
     
-    // Habilidades de 1 a 10, 0 eh nenhuma habilidade
+    // Inicializar a TAD de CONJUNTOS
+    if (((*heroi_virtual).habilidades = (conjunto *) malloc (sizeof(conjunto))) == NULL)
+        return 1;
+
+    (*heroi_virtual).habilidades->prox = NULL;
+
+    // Habilidades de 1 a MAX_HABILIDADES
+    // Retorna 1 em caso de ERRO
+    for (int i=1; i<=total_de_habilidades; i++) {
+        if (inserir_conjunto ((*heroi_virtual).habilidades, gerar_aleatorio(1,(mundo_virtual.num_habilidades)))) {
+            printf("ERRO! Não foi possível alocar memória para HERÓI");
+            return 1;
+        };
+    };
 
     // Retorno que deu tudo certo :)
     return 0;
@@ -88,9 +98,10 @@ void imprimir_heroi (heroi heroi_virtual) {
     printf("Experiencia: \t = %d \n", (heroi_virtual).experiencia);
     printf("Paciencia: \t = %d \n", (heroi_virtual).paciencia);
     printf("Velocidade: \t = %d \n", (heroi_virtual).velocidade);
-    // Imprimir as habilidades
-    printf("\n");
-}
+    printf("Habilidades: \t = ");
+    imprimir_conjunto ((heroi_virtual).habilidades);
+    printf("\n\n");
+};
 
 // Incializar uma única base
 // Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR O HEROI
@@ -99,12 +110,20 @@ int inicializar_base (base *base_virtual, mundo mundo_virtual, int id) {
     // ID inteiro >= 0
     (*base_virtual).id = id;
 
-    // Inicializar a lotacao da base, sendo um numero de 3 a 10
+    // Inicializar a lotacao da base, sendo um numero de 4 a 10
+    // Possivel faltar espaço nos outros (minimo 6 para QUALQUER funcionar)
     (*base_virtual).lotacao = gerar_aleatorio(3,10);
 
     // Inicializar o conjunto vazio de presentes
+    if (((*base_virtual).presentes = (conjunto *) malloc (sizeof(conjunto))) == NULL)
+        return 1;
+
+    // Inicializar o numero de presentes
+    (*base_virtual).num_presentes = 0;
 
     // Inicializar a lista de espera - VAZIA
+    if (inicializar_fila (&(*base_virtual).espera, (*base_virtual).lotacao))
+        return 1;
 
     // Inicializar a localizacao
     // Localizacao da base (representado por (x,y))
@@ -112,17 +131,32 @@ int inicializar_base (base *base_virtual, mundo mundo_virtual, int id) {
     (*base_virtual).local.y = gerar_aleatorio(0, (mundo_virtual.tamanho_mundo.y - 1));
     (*base_virtual).local.distancia = 0;
 
-    /* Imprimir todas as infos a cima*/
+    return 0;
+};
 
-    // printf("\n");
-    // printf("ID: \t\t\t = %d \n", (*base_virtual).id);
-    // printf("Lotacao: \t\t = %d \n", (*base_virtual).lotacao);
-    // printf("Localizacao X e Y: \t = (%d,%d) \n", (*base_virtual).local.x,  (*base_virtual).local.y);
-    // printf("\n");
+void imprimir_base(base base_virtual) {
+    printf("\n");
+    printf("ID: \t\t\t = %d \n", base_virtual.id);
+    printf("Lotacao: \t\t = %d \n", base_virtual.lotacao);
+    printf("Localizacao X e Y: \t = (%d,%d) \n", base_virtual.local.x,  base_virtual.local.y);
+    printf("Presentes: \t\t = ");
+    imprimir_conjunto(base_virtual.presentes);
+    printf("\n");
+    printf("Quantidade de presentes: = %d", base_virtual.num_presentes);
+    printf("\n");
+};
 
-    /* Imprimir todas as infos a cima*/
+// Retorna 0 se foi possivel, 1 para impossivel entrar
+int inserir_heroi_base (heroi *heroi_virtual, base *base_virtual) {
+
+    if ((base_virtual->num_presentes) == (base_virtual->lotacao))
+        return 1;
+
+    inserir_conjunto(base_virtual->presentes, heroi_virtual->id);
+    base_virtual->num_presentes++;
 
     return 0;
+
 };
 
 // Inicializar uma UNICA missao
@@ -140,8 +174,83 @@ int inicializar_missao (missao *missao_virtual, mundo mundo_virtual, int id) {
 };
 
 // Função que chama todas as outras
-// Usada para inciailizar TODO o mundo virtual -> herois, mundo, missao, etc...
+// Usada para inicializar TODO o mundo virtual -> herois, mundo, missao, etc...
 // Retorna 1 para caso de erro ou 0 para sucesso
-int inicializar_realidade_virtual() {
-    return 1;
+int inicializar_realidade_virtual(mundo *mundo_virtual) {
+
+    int aux;
+
+    inicializar_mundo(mundo_virtual);
+    imprimir_mundo(*mundo_virtual);
+
+    // Alocar memoria para o ARRAY de HEROIS
+    if ((mundo_virtual->herois = (heroi *) malloc ((mundo_virtual->num_herois) * sizeof (heroi)) ) == NULL) {
+        printf("ERRO! Não foi possível alocar memória para o ARRAY de HEROIS (MUNDO)");
+        return 1;
+    };
+
+    // Inicializar os N herois
+    for (int i=0; i<(mundo_virtual->num_herois); i++) {
+        if (inicializar_heroi(&(*mundo_virtual).herois[i], *mundo_virtual, i)) 
+            return 1;
+        // imprimir_heroi((mundo_virtual)->herois[i]);
+    };
+
+    // Alocar memoria para o ARRAY de BASES
+    if ((mundo_virtual->bases = (base *) malloc ((mundo_virtual->num_bases) * sizeof (base)) ) == NULL) {
+        printf("ERRO! Não foi possível alocar memória para o ARRAY de BASES (MUNDO)");
+        return 1;
+    };
+
+    // Inicializar as N bases
+    aux = 0;
+    for (int i=0; i<(mundo_virtual->num_bases); i++) {
+            if (inicializar_base(&(*mundo_virtual).bases[i], *mundo_virtual, i))
+                return 1;
+            aux += (*mundo_virtual).bases[i].lotacao;
+    };
+
+    // Caso não de o numero minimo de lotacoes para todos os herois
+    while (aux < (mundo_virtual->num_bases*6)) {
+        printf("ERRO! Nao tem lotacao minima para todos os herois (MUNDO)\n");
+        for (int i=0; i<(mundo_virtual->num_bases); i++) {
+            if (inicializar_base(&(*mundo_virtual).bases[i], *mundo_virtual, i))
+                return 1;
+            aux += (*mundo_virtual).bases[i].lotacao;
+        };
+    };
+
+    // Inserir aleatoriamente os herois nas bases
+    for (int i=0; i<(mundo_virtual->num_herois); i++) {
+        aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
+        while (inserir_heroi_base (&mundo_virtual->herois[i], &mundo_virtual->bases[aux]))
+            aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
+    };
+
+    // Imprimir a base - DEPURACAO
+    // for (int i=0; i<(mundo_virtual->num_bases); i++)
+    //     imprimir_base((mundo_virtual)->bases[i]);
+
+    return 0;
+};
+
+// Função de finalizacao da realidade virtual
+// Imprime todos os resultados e libera a memória
+void finalizar_realidade_virtual(mundo *mundo_virtual) {
+
+    // Imprimir todo o resultado
+
+    // Deletar todos os herois
+    free (mundo_virtual->herois);
+
+    // Deletar todas as bases
+    free (mundo_virtual->bases);
+
+    // Deletar todas as missoes
+
+    // Deletar todos os eventos
+
+    // Deletar o mundo
+
+    return;
 };

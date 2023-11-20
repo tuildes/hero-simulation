@@ -26,8 +26,11 @@
     void imprimir_conjunto (conjunto *conj) {
         conjunto *aux;
 
-        if (conj->prox == NULL)
+        // Para o CASO de conjunto vazio
+        if (conj->prox == NULL) {
+            printf("[ ]");
             return;
+        };
 
         printf("[");
 

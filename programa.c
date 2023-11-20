@@ -12,11 +12,23 @@
 */
 
 #include "principal.h"
+#include "entidades.h"
 
 int main () {
 
     // Definindo a seed randomica do programa
     srand(time(NULL));
+
+    // Incializacao
+    mundo mundo_virtual;
+
+    if (inicializar_realidade_virtual(&mundo_virtual)) {
+        printf("\033[0;31mERRO! Simulação abortada na inicialização :c\033[0;37m\n");
+        finalizar_realidade_virtual(&mundo_virtual);
+        return 1;
+    };
+
+    finalizar_realidade_virtual(&mundo_virtual);
 
     return 0;
 }
