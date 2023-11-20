@@ -8,7 +8,7 @@ int inicializar_fila (fila *FILA, int TAM) {
     (*FILA).fim = 0;
     
     // Alocação da memória do tamanho da fila
-    if (((*FILA).elementos = malloc (TAM * (sizeof(int)))) == NULL) {
+    if (((*FILA).elementos = (fila *) malloc (TAM * (sizeof(int)))) == NULL) {
         printf("ERRO! Não foi possível alocar memória na FILA");
         return 1;
     };
