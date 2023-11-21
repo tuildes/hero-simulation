@@ -1,3 +1,6 @@
+#ifndef _ENTIDADES_H
+#define _ENTIDADES_H
+
 #include "principal.h"
 #include "conjuntos.h"
 #include "fila.h"
@@ -136,3 +139,5 @@ void clock_mundo(void);
 // Função de finalizacao da realidade virtual
 // Libera a memória
 void finalizar_realidade_virtual(mundo *mundo_virtual);
+
+#endif

@@ -122,7 +122,7 @@ int inicializar_base (base *base_virtual, mundo mundo_virtual, int id) {
     (*base_virtual).num_presentes = 0;
 
     // Inicializar a lista de espera - VAZIA
-    if (inicializar_fila (&(*base_virtual).espera, (*base_virtual).lotacao))
+    if (inicializar_fila (&(*base_virtual).espera, ((*base_virtual).lotacao * 2)))
         return 1;
 
     // Inicializar a localizacao
@@ -261,11 +261,11 @@ int inicializar_realidade_virtual(mundo *mundo_virtual) {
     };
 
     // Inserir aleatoriamente os herois nas bases
-    for (int i=0; i<(mundo_virtual->num_herois); i++) {
-        aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
-        while (inserir_heroi_base (&mundo_virtual->herois[i], &mundo_virtual->bases[aux]))
-            aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
-    };
+    // for (int i=0; i<(mundo_virtual->num_herois); i++) {
+    //     aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
+    //     while (inserir_heroi_base (&mundo_virtual->herois[i], &mundo_virtual->bases[aux]))
+    //         aux = gerar_aleatorio(0, (mundo_virtual->num_bases - 1));
+    // };
 
     // Imprimir a base - DEPURACAO
     // for (int i=0; i<(mundo_virtual->num_bases); i++)
