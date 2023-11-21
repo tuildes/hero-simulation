@@ -1,3 +1,6 @@
+#ifndef _LEF_H
+#define _LEF_H
+
 #include "principal.h"
 
 /* TAD de LISTA DE EVENTOS FUTUROS */
@@ -55,3 +58,5 @@ int vazia_lef (lef *LEF);
 // Imprime a LEF
 // tempo tipo dado1 dado2
 void imprime_lef (lef *LEF);
+
+#endif
