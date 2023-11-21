@@ -3,8 +3,8 @@
 #include "fila.h"
 
 #define max_habilidades 5 //10
-#define tamanho_maximo 2000 //20000
-#define tempo_maximo 5000 //525000
+#define tamanho_maximo 1000 //20000
+#define tempo_maximo 1000 //525000
 
 /* Funções de manipulação de Entidades */
 

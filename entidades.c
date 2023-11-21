@@ -163,14 +163,44 @@ int inserir_heroi_base (heroi *heroi_virtual, base *base_virtual) {
 // Retona 1 em caso de erro
 int inicializar_missao (missao *missao_virtual, mundo mundo_virtual, int id) {
 
+    int total_de_habilidades;
+    int habilidade;
     // Inicializar o ID
+    (*missao_virtual).id = id;
 
     // Inicializar a localizacao
+    (*missao_virtual).local.x = gerar_aleatorio(0, (mundo_virtual.tamanho_mundo.x - 1));
+    (*missao_virtual).local.y = gerar_aleatorio(0, (mundo_virtual.tamanho_mundo.y - 1));
 
     // Inicializar as habilidades necessárias
-    // 1 a N de habilidades, sendo 0 sem habilidade
+    // Deve ser pertencente a [6..10] no caso de 10
+    total_de_habilidades = gerar_aleatorio((mundo_virtual.num_habilidades - 4),(mundo_virtual.num_habilidades));
+
+    // Alocar memoria e verificar erro de MALLOC
+    if ((missao_virtual->habilidades = (conjunto *) malloc (sizeof(conjunto))) == NULL) {
+        printf("ERRO! Não foi possível alocar memória para HABILIDADES da BASE");
+        return 1;
+    };
+
+    // Insere 0..total_habilidades habilidades aleatorias iiferentes
+    for (int i=0; i<total_de_habilidades; i++) {
+        habilidade = gerar_aleatorio(0,(mundo_virtual.num_habilidades));
+        while ((busca_conjunto (missao_virtual->habilidades, habilidade)) != NULL)
+            habilidade = gerar_aleatorio(0,(mundo_virtual.num_habilidades));
+
+        inserir_conjunto(missao_virtual->habilidades, habilidade);
+    };
 
     return 0;
+};
+
+void imprimir_missao (missao missao_virtual) {
+    printf("\n");
+    printf("ID: \t\t\t = %d \n", missao_virtual.id);
+    printf("Local: \t\t\t = (%d,%d) \n", missao_virtual.local.x, missao_virtual.local.y);
+    printf("Habilidades minimas: \t = ");
+    imprimir_conjunto(missao_virtual.habilidades);
+    printf("\n");
 };
 
 // Função que chama todas as outras
@@ -180,8 +210,15 @@ int inicializar_realidade_virtual(mundo *mundo_virtual) {
 
     int aux;
 
+    // Inicializar todas as variaveis do mundo
+    // Utiliza-se DEFINES
     inicializar_mundo(mundo_virtual);
+
+    // Imprimir o MUNDO - DEPURACAO
     imprimir_mundo(*mundo_virtual);
+    printf("\n");
+
+    /* HEROIS */
 
     // Alocar memoria para o ARRAY de HEROIS
     if ((mundo_virtual->herois = (heroi *) malloc ((mundo_virtual->num_herois) * sizeof (heroi)) ) == NULL) {
@@ -195,6 +232,9 @@ int inicializar_realidade_virtual(mundo *mundo_virtual) {
             return 1;
         // imprimir_heroi((mundo_virtual)->herois[i]);
     };
+
+    /* HEROIS */
+    /* BASES */
 
     // Alocar memoria para o ARRAY de BASES
     if ((mundo_virtual->bases = (base *) malloc ((mundo_virtual->num_bases) * sizeof (base)) ) == NULL) {
@@ -231,6 +271,25 @@ int inicializar_realidade_virtual(mundo *mundo_virtual) {
     // for (int i=0; i<(mundo_virtual->num_bases); i++)
     //     imprimir_base((mundo_virtual)->bases[i]);
 
+    /* BASES */
+    /* MISSOES */
+
+    // Alocar memoria para o ARRAY de MISSOES
+    if ((mundo_virtual->missoes = (missao *) malloc ((mundo_virtual->num_missoes) * sizeof (missao)) ) == NULL) {
+        printf("ERRO! Não foi possível alocar memória para o ARRAY de MISSOES (MUNDO)");
+        return 1;
+    };
+
+    // Inicializar as missoes
+    for (int i=0; i<(mundo_virtual->num_missoes); i++)
+        inicializar_missao(&mundo_virtual->missoes[i], *mundo_virtual, i);
+
+    // Imprimir todas as missoes - DEPURACAO
+    // for (int i=0; i<(mundo_virtual->num_missoes); i++)
+    //     imprimir_missao(mundo_virtual->missoes[i]);
+
+    /* MISSOES */
+
     return 0;
 };
 
@@ -247,6 +306,7 @@ void finalizar_realidade_virtual(mundo *mundo_virtual) {
     free (mundo_virtual->bases);
 
     // Deletar todas as missoes
+    free (mundo_virtual->missoes);
 
     // Deletar todos os eventos
 
