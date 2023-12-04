@@ -1,24 +1,25 @@
 #include "principal.h"
 
-/* TAD de FILA */
-typedef struct fila_circular fila;
-struct fila_circular {
+// Células da FILA
+typedef struct objeto_nodo_fila nodo_fila;
+struct objeto_nodo_fila {
+    int id;
+    nodo_fila *prox;
+};
+
+// Cabeça da FILA
+typedef struct objeto_fila fila;
+struct objeto_fila {
+    nodo_fila *primeiro;
     int tamanho;
-    int inicio;
-    int fim;
-    int *elementos;
 };
 
 // Inicializar a fila com tamanho TAM
 // Retorna 1 para ERRO
-int inicializar_fila (fila *FILA, int TAM);
+fila* inicializar_fila ();
 
 // Destruir a fila
 void destruir_fila (fila *FILA);
-
-// Verificar se está cheia
-// Retorna 1 para verdadeiro e 0 para falso
-int fila_cheia (fila FILA);
 
 // Verificar se está vazia
 // Retorna 1 para verdadeiro e 0 para falso
@@ -33,5 +34,5 @@ int inserir_fila (fila *FILA, int NUM);
 // Se não for possivel remover, retorna 0
 int remover_fila (fila *FILA);
 
-// Retorna o primeiro elemento da fila
-int inicio_fila (fila FILA);
+// Imprime o conteudo da fila [ a b c d e f g .. n]
+void imprimir_fila (fila *FILA);
