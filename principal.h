@@ -14,3 +14,5 @@
 
 /* Funções de manipulação principais do projeto */
 int gerar_aleatorio (int min, int max);
+double distancia_pontos (int A, int B, int X, int Y);
+float media (int A, int B);
