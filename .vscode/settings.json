@@ -1,7 +1,9 @@
 {
 	"C_Cpp.errorSquiggles": "disabled",
 	"files.associations": {
+		"*.mdx": "markdown",
 		"entidades.h": "c",
-		"conjuntos.h": "c"
+		"conjuntos.h": "c",
+		"limits": "c"
 	}
 }
