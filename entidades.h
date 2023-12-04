@@ -5,9 +5,9 @@
 #include "conjuntos.h"
 #include "fila.h"
 
-#define max_habilidades 5 //10
-#define tamanho_maximo 1000 //20000
-#define tempo_maximo 1000 //525000
+#define max_habilidades 10 //10
+#define tamanho_maximo 20000 //20000
+#define tempo_maximo 525600 //525000
 
 /* Funções de manipulação de Entidades */
 
@@ -19,9 +19,7 @@ struct plano_cartesiano {
     // Possui um maximo que X e Y podem estar, mas eh verificado na criacao do mundo
     int x;
     int y;
-
-    // Variavel para definir a distancia, se necessario para comparacoes (Inteiro >= 0)
-    unsigned int distancia;
+    
 };
 
 // Estrutura padrao do heroi (H)
@@ -60,9 +58,11 @@ struct objeto_base {
     // inteiro que diz quantos estão presentes
     int num_presentes;
     // Espera -> fila que representa os herois que vao entrar mais tarde
-    fila espera;
+    fila* espera;
     // Localizacao da base (representado por (x,y))
     localizacao local;
+    // Conjunto de habilidades
+    conjunto* habilidades;
     
 };
 
@@ -76,6 +76,10 @@ struct objeto_missao {
     conjunto* habilidades;
     // Localizacao da missao (representado por (x,y))
     localizacao local;
+    // Array de IDS de BASES proximas
+    // ORDENADAS POR PROXIMIDADE
+    int* ordem_bases;
+
 };
 
 // Estrutura padrao do Mundo (W)
@@ -104,9 +108,6 @@ struct objeto_mundo {
     // 1 Metro por unidade de X e Y (inteiros)
     localizacao tamanho_mundo;
 
-    // Tempo do mundo (inteiro >= 0)
-    // 1 unidade de tempo da simulação = 1 minuto do mundo real
-    int relogio;
     // Tempo maximo do mundo (inteiro >= 0)
     int tempo_max;
 };
@@ -117,27 +118,20 @@ struct objeto_mundo {
 // Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR O MUNDO
 int inicializar_mundo(mundo *mundo_virtual);
 // Inicializa todas as variaveis de um UNICO heroi
-// Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR O HEROI
+// Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR
 int inicializar_heroi (heroi *heroi_virtual, mundo mundo_virtual, int id);
+// Inicializa todas as variaveis de uma UNICA base
+// Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR
 int inicializar_base (base *base_virtual, mundo mundo_virtual, int id);
+// Inicializa todas as variaveis de uma UNICA missao
+// Retorna 1 para estado de erro - NAO FOI POSSIVEL INICIAR
 int inicializar_missao (missao *missao_virtual, mundo mundo_virtual, int id);
 
-// Funções sem retorno que APENAS imprimem na tela - servem para DEPURACAO
+// Funções sem retorno que APENAS imprimem as infos geradas
+// Feito para a DEPURACAO
 void imprimir_mundo(mundo mundo_virtual);
 void imprimir_heroi(heroi heroi_virtual);
 void imprimir_base(base base_virtual);
 void imprimir_missao(missao missao_virtual);
-
-// Função que chama todas as outras
-// Usada para inicializar TODO o mundo virtual -> herois, mundo, missao, etc...
-// Retorna 1 para caso de erro ou 0 para sucesso
-int inicializar_realidade_virtual(mundo *mundo_virtual);
-
-// Função que executa 1 minuto no mundo
-void clock_mundo(void);
-
-// Função de finalizacao da realidade virtual
-// Libera a memória
-void finalizar_realidade_virtual(mundo *mundo_virtual);
 
 #endif
