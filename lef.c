@@ -49,6 +49,10 @@ lef *cria_lef (void) {
 // Destroi a LEF
 // Retorna NULL 
 lef *destruir_lef (lef *LEF) {
+
+    while (LEF->primeiro != NULL)
+        free(retirar_lef(LEF));
+
     free(LEF->primeiro);
     free(LEF);
     return NULL;
