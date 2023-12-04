@@ -68,7 +68,7 @@ void evento_avisa (int INSTANTE, base* BASE, lef* LEF, mundo* MUNDO) {
 int evento_entra (int INSTANTE, heroi HEROI, base BASE, lef* LEF) {
 
     // Tempo de permanencia na BASE
-    int TPB = ((15 + HEROI.paciencia) * gerar_aleatorio(1,20) );
+    int TPB = (15 + HEROI.paciencia * gerar_aleatorio(1,20) );
     // Insere na LEF: SAIDA do HEROI
     inserir_lef(LEF, cria_evento ((INSTANTE + TPB), 5, HEROI.id, BASE.id));
     return (TPB + INSTANTE);

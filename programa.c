@@ -20,7 +20,8 @@
 int main () {
 
     // Definindo a seed randomica do programa
-    srand(time(NULL));
+    // srand(time(NULL));
+    srand(0);
 
     // Variaveis de ambiente
     mundo mundo_virtual;
