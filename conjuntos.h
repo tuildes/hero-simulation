@@ -21,16 +21,32 @@ struct listaEncadeada {
     // Busca um item na lista e retorna o conjunto dele para frente
     conjunto* busca_conjunto (conjunto *conj, int dado);
 
+    // Busca e Remove um certo numero no conjunto
+    // Retorna o removido
+    // Retorna -1 em caso de erro
+    int buscar_remover_conjunto (conjunto *conj, int NUM);
+
+    // Retorna 1 se encontrado
+    int search_conj (conjunto *conj, int dado);
+
     // Imprimir o conjunto: [1, 2, 3, ..., n]
     void imprimir_conjunto (conjunto *conj);
+
+    // Destroi o conjunto
+    void destruir_conjunto (conjunto *conj);
+
+    // Inicializar o conjunto
+    conjunto* inicializar_conjunto ();
 
 /* Manipulação de conjuntos */
 /* Relação de conjuntos e elementos */
 
     // União entre dois conjuntos
-    conjunto* uniao_conjunto (conjunto *A, conjunto *B);
+    // Faz a UNIAO de A e B em C
+    void uniao_conjunto (conjunto *A, conjunto *B, conjunto *C);
 
     // Intersecção entre dois conjuntos
+    // Retorna a Intersecao
     conjunto* interseccao_conjunto (conjunto *A, conjunto *B);
 
     // Pertence - verifica se existe um numero no conjunto

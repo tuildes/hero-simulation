@@ -2,6 +2,27 @@
 
 /* TAD de LISTA */
 
+    void destruir_conjunto (conjunto *conj) {
+        while (conj->prox != NULL)
+            remover_conjunto(conj);
+        free (conj);
+    };
+
+    conjunto* inicializar_conjunto () {
+        
+        conjunto *temp;
+        if ((temp = (conjunto *) malloc (sizeof(conjunto))) == NULL) {
+            free (temp);
+            return NULL;
+        };
+
+        // Valores padrões
+        temp->prox = NULL;
+        temp->num = 0;
+        
+        return temp;
+    };
+
     // Insere na lista
     int inserir_conjunto (conjunto *conj, int numero) {
 
@@ -24,7 +45,13 @@
 
     // Imprimir o conjunto
     void imprimir_conjunto (conjunto *conj) {
+        
         conjunto *aux;
+        int temp[50];
+        int i = 0;
+        int max;
+        int j;
+        int temp2;
 
         // Para o CASO de conjunto vazio
         if (conj->prox == NULL) {
@@ -32,16 +59,42 @@
             return;
         };
 
+        // Insere todos os elementos do conjunto num ARRAY
+        for (aux = conj->prox; aux != NULL; aux = aux->prox) {
+            temp[i] = aux->num;
+            i++;
+        };
+
+        // Troca REPETIDOS por -1
+        max = i;
+        for (i=0; i<max; i++) {
+            for (j=(i+1); j<max; j++) {
+                if (temp[j] == temp[i])
+                    temp[j] = -1;
+            };
+        };
+
+        // Insertion Sort
+        for (i=1; i<max; i++) {
+
+            j=i;
+            while ((j != 0) && (temp[j] < temp[j-1])) {
+                temp2 = temp[j-1];
+                temp[j-1] = temp[j];
+                temp[j] = temp2;
+                j--;
+            };
+        };
+
+        // Imprime o restante como "NUM, "
         printf("[");
+        for (i=0; i<max; i++) {
+            if (temp[i] != (-1))
+                printf(" %d", temp[i]);
+        };
+        
+        printf(" ]");
 
-        // Imprime o primeiro sem virgula
-        printf("\e[1;37m%d\e[0;37m", conj->prox->num);
-
-        // Imprime o restante como ", NUM"
-        for (aux = conj->prox->prox; aux != NULL; aux = aux->prox)
-            printf(", \e[1;37m%d\e[0;37m", aux->num);
-
-        printf("]");
     };
 
     // Deleta um valor da lista
@@ -61,16 +114,55 @@
         return num_removido;
     }
 
+    // Busca e Remove um certo numero no conjunto
+    // Retorna o removido
+    // Retorna 0 em caso de NAO EXISTIR
+    int buscar_remover_conjunto (conjunto *conj, int NUM) {
+
+        conjunto *auxiliar;
+
+        if (conj->prox->num == NUM)
+            return remover_conjunto (conj);
+
+        if ((auxiliar = busca_conjunto (conj, NUM)) == NULL)
+            return -1;
+
+        return remover_conjunto (auxiliar);
+
+    };
+
+    // Mesma funcao a baixo mas retorna 1 ou 0
+    int search_conj (conjunto *conj, int dado) {
+
+        conjunto *auxiliar;
+
+        // Caso Base - conjunto VAZIO
+        if (conj->prox == NULL)
+            return 0;
+
+        for (auxiliar = conj->prox; auxiliar != NULL; auxiliar = auxiliar->prox) {
+            if (auxiliar->num == dado)
+                return 1;
+        };
+
+        // Se não encontrar, vai retornar NULL
+        return 0;
+
+    };
+
     // Busca um item na lista e retorna o conjunto dele para frente
     conjunto* busca_conjunto (conjunto *conj, int dado) {
 
         conjunto *auxiliar;
 
-        // Procura por todas as células
-        for (auxiliar = conj->prox; auxiliar != NULL; auxiliar = auxiliar->prox) {
-            if (auxiliar->num == dado)
+        // Caso Base - conjunto VAZIO
+        if (conj->prox == NULL)
+            return NULL;
+
+        for (auxiliar = conj->prox; auxiliar->prox != NULL; auxiliar = auxiliar->prox) {
+            if (auxiliar->prox->num == dado)
                 return auxiliar;
-        }
+        };
 
         // Se não encontrar, vai retornar NULL
         return NULL;
@@ -81,16 +173,9 @@
 /* Relação de Conjuntos */
 
     // União entre dois conjuntos
-    conjunto* uniao_conjunto (conjunto *A, conjunto *B) {
+    void uniao_conjunto (conjunto *A, conjunto *B, conjunto *C) {
 
         conjunto *auxiliar;
-        conjunto *C;
-
-        C = NULL;
-        if ((C = ((conjunto *) malloc(sizeof(conjunto)))) == NULL) {
-            printf("ERRO! Não foi possível alocar memória na UNIAO em C");
-		    return NULL;
-        };
 
         // Adiciona totalmente A
         for (auxiliar = A->prox; auxiliar != NULL; auxiliar = auxiliar->prox)
@@ -98,12 +183,9 @@
 
         // Adiciona B-A
         for (auxiliar = B->prox; auxiliar != NULL; auxiliar = auxiliar->prox)
-            if ((busca_conjunto (A, (auxiliar->num))) == NULL)
+            if (search_conj(A, B->num))
                 inserir_conjunto(C, auxiliar->num);
-
-        return C;
-
-    }
+    };
 
     // Intersecção entre dois conjuntos
     conjunto* interseccao_conjunto (conjunto *A, conjunto *B) {
