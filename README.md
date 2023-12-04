@@ -20,15 +20,17 @@
 
 ### Arquivos .C
 
+-   conjuntos.c -> funções de manipulação de conjuntos (lista)
+
 -   entidades.c -> funções de manipulação das entidades
 
 -   eventos.c -> funções somente de eventos
 
--   fila.c -> TAD de fila
+-   fila.c -> TAD de fila (lista encadeada)
 
--   lef.c -> TAD de lista de eventos futuros
+-   lef.c -> TAD de lista de eventos futuros (lista)
 
--   mundo.c -> funções de manipulação somente do mundo e incializações
+-   mundo.c -> funções de manipulação do mundo e incializações
 
 -   principal.c -> funções genéricas, que não tem uma categoria, como **gerarAleatorio()**
 
@@ -38,8 +40,14 @@
 
 -   MAKEFILE -> Makefile que compila TUDO
 
--   ./programa -> Executavel do The Boys
+-   ./theboys -> Executavel do The Boys
 
-### Pastas
+### Comandos uteís
 
--   /gcc-shell -> .sh para gcc
+```
+$ valgrind --leak-check=full --track-origins=yes -s ./programa > saida.txt
+
+$ make
+
+$ make clean
+```
