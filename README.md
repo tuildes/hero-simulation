@@ -10,6 +10,10 @@
 
 ---
 
+# RESUMO
+
+O projeto se consiste em uma simulação de eventos em mundo de heróis, que mudam a todo o tempo de base e realizam missões para adquirir experiência
+
 # ARQUIVOS
 
 ### Arquivos .C
