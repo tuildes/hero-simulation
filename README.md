@@ -1,4 +1,4 @@
-# 👻 Simulação The Boys
+# 👻 Simulação de Heróis
 
 > [!NOTE]
 > O projeto é uma simulação de eventos feito de forma automática e aleatória de heróis fazendo missões e transitando entre bases para adquirir experiẽncia usando suas habilidades. Totalmente feito em `C` como trabalho final de programação 1 na faculdade [^1]
