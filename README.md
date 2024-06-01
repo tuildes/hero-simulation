@@ -1,51 +1,50 @@
-# CABEÇALHO
+# 👻 Simulação The Boys
 
-### TRABALHO GRANDE - THE BOYS
+> [!NOTE]
+> O projeto é uma simulação de eventos feito de forma automática e aleatória de heróis fazendo missões e transitando entre bases para adquirir experiẽncia usando suas habilidades. Totalmente feito em `C` como trabalho final de programação 1 na faculdade [^1]
 
--   **ESPECIFICACAÇÂO**: https://wiki.inf.ufpr.br/maziero/doku.php?id=c:theboys
+## ☕ Info
 
--   **Matéria**: Programação 1 - 2023/2
+- **ESPECIFICACAÇÂO**: https://wiki.inf.ufpr.br/maziero/doku.php?id=c:theboys
+- **Matéria**: Programação 1 [^1]
+- **Data**: segundo semestre de 2023
+- **Linguagem**: `C`
 
--   **Curso/Semestre**: Informática Biomédica (2° semestre)
+## 🐛 Comandos
 
----
+### Setup:
+```bash
+# Compilar o programa em um arquivo ./theboys
+make
 
-# RESUMO
-
-O projeto se consiste em uma simulação de eventos em mundo de heróis, que mudam a todo o tempo de base e realizam missões para adquirir experiência
-
-# ARQUIVOS
-
-### Arquivos .C
-
--   conjuntos.c -> funções de manipulação de conjuntos (lista)
-
--   entidades.c -> funções de manipulação das entidades
-
--   eventos.c -> funções somente de eventos
-
--   fila.c -> TAD de fila (lista encadeada)
-
--   lef.c -> TAD de lista de eventos futuros (lista)
-
--   mundo.c -> funções de manipulação do mundo e incializações
-
--   principal.c -> funções genéricas, que não tem uma categoria, como **gerarAleatorio()**
-
--   programa.c -> função MAIN()
-
-### Outros
-
--   MAKEFILE -> Makefile que compila TUDO
-
--   ./theboys -> Executavel do The Boys
-
-### Comandos uteís
-
+# Rodar o programa
+./theboys
 ```
-$ valgrind --leak-check=full --track-origins=yes -s ./programa > saida.txt
 
-$ make
-
-$ make clean
+### Debug
+```bash
+# Verifica vazamentos de memoria
+valgrind --leak-check=full --track-origins=yes -s ./theboys
 ```
+
+### Limpeza
+```bash
+# Remove arquivos .o e executaveis
+make clean
+```
+
+## 🚀 Arquivos
+
+    .
+    ├── conjuntos                   # funções de manipulação de conjuntos (lista)
+    ├── entidades                   # funções de manipulação das entidades
+    ├── eventos                     # funções somente de eventos
+    ├── fila                        # TAD de fila (lista encadeada)
+    ├── lef                         # TAD de lista de eventos futuros (lista)
+    ├── mundo                       # funções de manipulação do mundo e incializações
+    ├── principal                   # funções genéricas, que não tem uma categoria, como **gerarAleatorio()**
+    ├── programa                    # função MAIN()
+    |
+    └── README.md                   
+
+[^1]: Faculdade de **Informática Biomédica** na Universidade Federal do Paraná no ano de 2023 (segundo semestre), o curso se consiste em uma matriz de ciência da computação com matérias focadas as áreas biomédicas e aplicações da computação em áreas médicas, como genética.
