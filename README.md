@@ -5,7 +5,7 @@
 
 ## ☕ Info
 
-- **ESPECIFICACAÇÂO**: https://wiki.inf.ufpr.br/maziero/doku.php?id=c:theboys
+- **ESPECIFICACAÇÂO**: https://wiki.inf.ufpr.br/maziero/doku.php?id=c:theboys [^2]
 - **Matéria**: Programação 1 [^1]
 - **Data**: segundo semestre de 2023
 - **Linguagem**: `C`
@@ -48,3 +48,5 @@ make clean
     └── README.md                   
 
 [^1]: Faculdade de **Informática Biomédica** na Universidade Federal do Paraná no ano de 2023 (segundo semestre), o curso se consiste em uma matriz de ciência da computação com matérias focadas as áreas biomédicas e aplicações da computação em áreas médicas, como genética.
+
+[^2]: Quaisquer licenças ou direitos do trabalho e especificações dele são descritos no site dos professores, o código feito neste repositório é somente uma replicação e adapatação do trabalho em C.
